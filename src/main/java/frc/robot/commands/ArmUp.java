@@ -51,7 +51,7 @@ public class ArmUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (arm.getArmPos() < armStart + 45){
+    if (arm.getArmPos() < armStart + 17){
       return false;
     }
     return true;
