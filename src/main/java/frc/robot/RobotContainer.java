@@ -82,17 +82,16 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    drivetrain.setDefaultCommand( new TeleopDriveCommand(drivetrain, driver));
+
+
     m_chooser.setDefaultOption("Shoot", m_simpleAuto1);
     m_chooser.addOption("Move", m_simpleAuto2);
     m_chooser.addOption("Shoot and Move", m_complexAuto1);
     m_chooser.addOption("Shoot, Move, and Rotate", m_complexAuto2);
-    
     SmartDashboard.putData(m_chooser); 
     SmartDashboard.putData("Rotate 180", new Rotate(drivetrain, 180));
-
-
-    drivetrain.setDefaultCommand(new TeleopDriveCommand(drivetrain, driver.getRawAxis(Constants.DRIVER_RTRIGGER) * .75, 
-    driver.getRawAxis(Constants.DRIVER_LTRIGGER) * .75, -driver.getRawAxis(Constants.DRIVER_LEFT_X), new JoystickButton(driver, Constants.X_BUTTON).get()));
     
     // drivetrain.setDefaultCommand(
     //   new RunCommand(() -> drivetrain.TeleOpCurvatureDrive(
@@ -131,9 +130,8 @@ public class RobotContainer {
     driver_UP.whenPressed(new ArmUp(arm));
 
 
-    
-    JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
-   //driver_A.whenPressed(new RunCommand(() -> setArmSpeed(0), arm));
+    // JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
+    // driver_A.whenPressed(new RunCommand(() -> setArmSpeed(0), arm));
   }
 
   /**

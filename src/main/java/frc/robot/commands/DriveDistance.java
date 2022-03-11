@@ -32,6 +32,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     drivesub.TeleOpDrive(0, 0);
+    drivesub.setLeftPos(0);
     startPos = drivesub.getLeftPosition();
   }
 
@@ -40,9 +41,9 @@ public class DriveDistance extends CommandBase {
   public void execute() {
     
     if (distance < 0) {
-      drivesub.TeleOpDrive(-0.15, -0.15);
+      drivesub.TeleOpCurvatureDrive(-0.15, 0, 0, false);
     } else {
-      drivesub.TeleOpDrive(0.15, 0.15);
+      drivesub.TeleOpCurvatureDrive(0.15, 0, 0, false);
     }
     
   }
@@ -58,13 +59,13 @@ public class DriveDistance extends CommandBase {
   public boolean isFinished() {
 
     if (distance < 0){
-      if ( Math.abs( drivesub.getLeftPosition() - (startPos - distance * 182120 ) ) < 10000 ) {
+      if ( Math.abs( drivesub.getLeftPosition() - (startPos + distance * 130 ) ) < 10000 ) {
         return true;
       } else {
         return false;
       }
     } else {
-      if ( Math.abs( drivesub.getLeftPosition() - (startPos + distance * 182120 ) ) < 10000 ) {
+      if ( Math.abs( drivesub.getLeftPosition() - (startPos - distance * 130 ) ) < 10000 ) {
         return true;
       } else {
         return false;

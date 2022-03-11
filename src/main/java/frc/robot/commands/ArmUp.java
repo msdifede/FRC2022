@@ -36,7 +36,8 @@ public class ArmUp extends CommandBase {
   @Override
   public void execute() {
     // arm.setArmSpeed(Constants.armSpeed);
-    if (!arm.getIsUp()){
+    // If the arm is down we go up
+    if (arm.isDOWN()){
       arm.setArmSpeed(Constants.armSpeed);
     }
   }
@@ -51,7 +52,7 @@ public class ArmUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (arm.getArmPos() < armStart + 17){
+    if (arm.getArmPos() < armStart + 38){
       return false;
     }
     return true;

@@ -4,29 +4,26 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDriveCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private DriveSub drive; 
-  private double left;
-  private double right;
-  private double turn;
-  private boolean button; 
+  private Joystick driver;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TeleopDriveCommand(DriveSub drive, double left, double right, double turn, boolean button) {
+  public TeleopDriveCommand(DriveSub drive, Joystick driver) {
     this.drive = drive; 
-    this.left = left; 
-    this.right = right; 
-    this.turn = turn; 
-    this.button = button;
+    this.driver = driver;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
   }
@@ -38,6 +35,11 @@ public class TeleopDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double right = driver.getRawAxis(Constants.DRIVER_RTRIGGER) * .75;
+    double left =  driver.getRawAxis(Constants.DRIVER_LTRIGGER) * .75;
+    double turn =  -driver.getRawAxis(Constants.DRIVER_LEFT_X);
+    boolean button = new JoystickButton(driver, Constants.X_BUTTON).get();
+
 
     drive.TeleOpCurvatureDrive(right, left, turn, button);
   }
@@ -46,7 +48,7 @@ public class TeleopDriveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     
-    drive.TeleOpDrive(0, 0);
+   // drive.TeleOpDrive(0, 0);
   }
 
 

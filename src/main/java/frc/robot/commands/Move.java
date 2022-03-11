@@ -19,7 +19,7 @@ public class Move extends SequentialCommandGroup {
   public Move(DriveSub drive){
 
     addCommands(
-      new DriveDistance(drive, -1)
+      new DriveDistance(drive, 1.0)
     ); 
 
   }

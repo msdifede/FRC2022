@@ -112,7 +112,12 @@ public class DriveSub extends SubsystemBase {
   
 
   public double getLeftPosition() {
+
     return frontLeftMotor.getSelectedSensorPosition(0);
+  }
+
+  public void setLeftPos(double pos){
+    frontLeftMotor.setSelectedSensorPosition(pos);
   }
 
   public double getRightPosition() {

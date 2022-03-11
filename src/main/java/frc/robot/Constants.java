@@ -31,7 +31,7 @@ public final class Constants {
     // Can ID
     public static final int ARM = 4;
     // Other stuff
-    public static final double armSpeed = 0.4;
+    public static final double armSpeed = 0.2;
     public static final double armSpeedDown = -0.2;
 
     // Driver Ports
