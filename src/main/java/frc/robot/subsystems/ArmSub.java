@@ -21,8 +21,8 @@ public class ArmSub extends SubsystemBase {
   private CANSparkMax armMotor;
   private boolean isUP = false;
 
-  // DigitalInput topLimitSwitch = new DigitalInput(0);
-  // DigitalInput bottomLimitSwitch = new DigitalInput(1);
+  DigitalInput bottomLimitSwitch1 = new DigitalInput(0);
+  DigitalInput bottomLimitSwitch2 = new DigitalInput(1);
 
   /** Creates a new ExampleSubsystem. */
   public ArmSub(CANSparkMax arm) {
@@ -60,8 +60,8 @@ public class ArmSub extends SubsystemBase {
     SmartDashboard.putData("Arm Down", new ArmDown(new ArmSub(armMotor)));
     SmartDashboard.putData("Arm 0", new RunCommand(() -> setArmPosition(0), this));
     SmartDashboard.putNumber("Arm Encoder Val", getArmPos());
-   // SmartDashboard.putBoolean("Top Switch Val", topLimitSwitch.get()); 
-   // SmartDashboard.putBoolean("Bottom Switch Val", bottomLimitSwitch.get());   
+    SmartDashboard.putBoolean("Bottom Switch 1 Val", bottomLimitSwitch1.get()); 
+    SmartDashboard.putBoolean("Bottom Switch 2 Val", bottomLimitSwitch2.get());
   }
 
   public void setArmPosition(double rotations){
@@ -79,6 +79,13 @@ public class ArmSub extends SubsystemBase {
 
   public void setIsUp(boolean isUP){
     this.isUP = isUP;
+  }
+
+  public boolean isDOWN(){
+    if (bottomLimitSwitch1.get() || bottomLimitSwitch2.get()){
+      return true;
+    }
+    return false;
   }
 
 }
