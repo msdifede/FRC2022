@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.ArmUp;
+import frc.robot.Constants;
 import frc.robot.commands.ArmDown;
 
 public class ArmSub extends SubsystemBase {
@@ -21,17 +22,26 @@ public class ArmSub extends SubsystemBase {
   private CANSparkMax armMotor;
   private boolean isUP = false;
 
-  DigitalInput bottomLimitSwitch1 = new DigitalInput(0);
-  DigitalInput bottomLimitSwitch2 = new DigitalInput(1);
+  DigitalInput bottomLimitSwitch1;
+  DigitalInput bottomLimitSwitch2;
 
   /** Creates a new ExampleSubsystem. */
   public ArmSub(CANSparkMax arm) {
     this.armMotor = arm;
+    armMotor.getEncoder().setPosition(Constants.ARM_TOP);
+    bottomLimitSwitch1 = new DigitalInput(0);
+    bottomLimitSwitch2 = new DigitalInput(1);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //SmartDashboard.putData("Arm Up", new ArmUp( new ArmSub(armMotor)));
+   // SmartDashboard.putData("Arm Down", new ArmDown(this(armMotor)));
+    SmartDashboard.putData("Arm 0", new RunCommand(() -> setArmPosition(0), this));
+    SmartDashboard.putNumber("Arm Encoder Val", getArmPos());
+    SmartDashboard.putBoolean("Bottom Switch 1 Val", bottomLimitSwitch1.get()); 
+    SmartDashboard.putBoolean("Bottom Switch 2 Val", bottomLimitSwitch2.get());
   }
 
   @Override
@@ -56,12 +66,7 @@ public class ArmSub extends SubsystemBase {
     // }
     armMotor.set(speed);
 
-    SmartDashboard.putData("Arm Up", new ArmUp(new ArmSub(armMotor)));
-    SmartDashboard.putData("Arm Down", new ArmDown(new ArmSub(armMotor)));
-    SmartDashboard.putData("Arm 0", new RunCommand(() -> setArmPosition(0), this));
-    SmartDashboard.putNumber("Arm Encoder Val", getArmPos());
-    SmartDashboard.putBoolean("Bottom Switch 1 Val", bottomLimitSwitch1.get()); 
-    SmartDashboard.putBoolean("Bottom Switch 2 Val", bottomLimitSwitch2.get());
+
   }
 
   public void setArmPosition(double rotations){
@@ -82,7 +87,8 @@ public class ArmSub extends SubsystemBase {
   }
 
   public boolean isDOWN(){
-    if (bottomLimitSwitch1.get() || bottomLimitSwitch2.get()){
+    if (!bottomLimitSwitch1.get() || !bottomLimitSwitch2.get()){
+      setArmPosition(0);
       return true;
     }
     return false;

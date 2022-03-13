@@ -6,12 +6,14 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.IntakeSub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArmUp extends CommandBase {
+public class ArmDownAndIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSub arm;
+  private final IntakeSub intake; 
   private double armStart;
 
   /**
@@ -19,10 +21,12 @@ public class ArmUp extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmUp(ArmSub arm) {
+  public ArmDownAndIntake(ArmSub arm, IntakeSub intake) {
     this.arm = arm;
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(arm);
+    // Not sure about the , tactic
+    addRequirements(arm, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -36,26 +40,29 @@ public class ArmUp extends CommandBase {
   @Override
   public void execute() {
     // arm.setArmSpeed(Constants.armSpeed);
-    // If the arm is down we go up
-   // if (arm.isDOWN()){
-      arm.setArmSpeed(Constants.armSpeed);
-   // }
+    // If the arm is up we go down meaning it is NOT down
+    //if(!arm.isDOWN()){
+        arm.setArmSpeed(Constants.armSpeedDown);
+        intake.spinIntake(Constants.intakeSpeed);
+   //}
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.setArmSpeed(0.01);
-    arm.setIsUp(true);
+    intake.spinIntake(0);
+    arm.setIsUp(false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if (arm.getArmPos() < 38){
-    if (arm.getArmPos() < Constants.ARM_TOP){
-      return false;
-    }
-    return true;
+   // if (arm.getArmPos() + 10 > armStart){'
+  //  if( arm.getArmPos() <= 0 || arm.isDOWN()){
+  //   // arm.setArmPosition(0);
+  //     return true;
+  //   }
+    return false;
   }
 }

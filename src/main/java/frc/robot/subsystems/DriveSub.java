@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.SPI;
 

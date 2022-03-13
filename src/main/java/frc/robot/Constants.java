@@ -30,6 +30,7 @@ public final class Constants {
     // Arm
     // Can ID
     public static final int ARM = 4;
+    public static final int ARM_TOP = 59;
     // Other stuff
     public static final double armSpeed = 0.2;
     public static final double armSpeedDown = -0.2;

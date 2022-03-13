@@ -36,6 +36,8 @@ import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSub;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -67,7 +69,7 @@ public class RobotContainer {
       new VictorSPX(Constants.intakeVictor)
     );
   
-    private final ArmSub arm = new ArmSub(new CANSparkMax(Constants.ARM, MotorType.kBrushless));
+  private final ArmSub arm = new ArmSub(new CANSparkMax(Constants.ARM, MotorType.kBrushless));
 
   private final Command m_simpleAuto1 = new Shoot(intake);
   private final Command m_simpleAuto2 = new Move(drivetrain); 
@@ -115,7 +117,9 @@ public class RobotContainer {
     driver_Y.whileHeld(new OuttakeCommand(intake));
 
     JoystickButton driver_B_RIGHT = new JoystickButton(driver, Constants.BUMPER_RIGHT);
-    driver_B_RIGHT.whileHeld(new IntakeCommand(intake));
+    //driver_B_RIGHT.whileHeld(new IntakeCommand(intake));
+
+    driver_B_RIGHT.whileHeld(new ParallelCommandGroup(new IntakeCommand(intake), new ArmDown(arm))).whenReleased(new ParallelCommandGroup(new InstantCommand(intake::stop, intake), new ArmUp(arm)));
    
     // JoystickButton driver_Y = new JoystickButton(driver, Constants.Y_BUTTON);
     // driver_Y.whenPressed(new ArmUp(arm)); 

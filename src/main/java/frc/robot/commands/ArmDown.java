@@ -28,8 +28,8 @@ public class ArmDown extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armStart = arm.getArmPos(); 
-    // arm.setArmPosition(0);
+    //armStart = arm.getArmPos(); 
+     arm.setArmPosition(38);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,24 +37,27 @@ public class ArmDown extends CommandBase {
   public void execute() {
     // arm.setArmSpeed(Constants.armSpeed);
     // If the arm is up we go down meaning it is NOT down
-    if(!arm.isDOWN()){
+    //if(!arm.isDOWN()){
         arm.setArmSpeed(Constants.armSpeedDown);
-    }
+   // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.setArmSpeed(0);
+    arm.setArmSpeed(-0.01);
     arm.setIsUp(false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (arm.getArmPos() + 10 > armStart){
-      return false;
+   // if (arm.getArmPos() + 10 > armStart){'
+   //if( arm.getArmPos() <= 0 || arm.isDOWN()){
+     if (arm.isDOWN()){
+    // arm.setArmPosition(0);
+      return true;
     }
-    return true;
+    return false;
   }
 }

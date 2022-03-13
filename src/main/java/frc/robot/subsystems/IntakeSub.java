@@ -48,6 +48,10 @@ public class IntakeSub extends SubsystemBase {
     SmartDashboard.putData("Intake Command", new IntakeCommand(new IntakeSub(intakeMotor)));
   }
 
+  public void stop(){
+    spinIntake(0);
+  }
+
 
 
 
