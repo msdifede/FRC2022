@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.sql.DriverAction;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -14,15 +16,19 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DPadButton;
 import frc.robot.commands.ArmUp;
+import frc.robot.commands.Crazy;
 import frc.robot.commands.ArmDown;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FetchSecondBallOuttake;
+import frc.robot.commands.ImmediateBallOuttake;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Move;
 import frc.robot.commands.OuttakeCommand;
@@ -75,6 +81,9 @@ public class RobotContainer {
   private final Command m_simpleAuto2 = new Move(drivetrain); 
   private final Command m_complexAuto1 = new ShootAndMove(drivetrain, intake);
   private final Command m_complexAuto2 = new ShootAndMoveAndRotate(drivetrain, intake, arm);
+  private final Command m_immediateBallAuto = new ImmediateBallOuttake(intake, drivetrain, arm);
+  private final Command m_fetchSecondBallAuto = new FetchSecondBallOuttake(intake, drivetrain, arm);
+  private final Command crazy = new Crazy(drivetrain, intake, arm); 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   
@@ -85,13 +94,17 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    drivetrain.setDefaultCommand( new TeleopDriveCommand(drivetrain, driver));
+    drivetrain.setDefaultCommand( new TeleopDriveCommand(drivetrain, driver) );
 
 
-    m_chooser.setDefaultOption("Shoot", m_simpleAuto1);
+    m_chooser.setDefaultOption("Shoot and Move", m_complexAuto1);
     m_chooser.addOption("Move", m_simpleAuto2);
-    m_chooser.addOption("Shoot and Move", m_complexAuto1);
+    m_chooser.addOption("Shoot", m_simpleAuto1);
     m_chooser.addOption("Shoot, Move, and Rotate", m_complexAuto2);
+    m_chooser.addOption("Immediate Ball Auto", m_immediateBallAuto);
+    m_chooser.addOption("Fetch Second Ball Auto", m_fetchSecondBallAuto);
+    // m_chooser.addOption("Crazy", crazy);
+
     SmartDashboard.putData(m_chooser); 
     SmartDashboard.putData("Rotate 180", new Rotate(drivetrain, 180));
     
@@ -115,17 +128,24 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton driver_Y = new JoystickButton(driver, Constants.Y_BUTTON);
     driver_Y.whileHeld(new OuttakeCommand(intake));
+      
+    
+    JoystickButton driver_B = new JoystickButton(driver, Constants.B_BUTTON);
+    driver_B.whenPressed(new DriveDistance(drivetrain, 1000));
 
     JoystickButton driver_B_RIGHT = new JoystickButton(driver, Constants.BUMPER_RIGHT);
     //driver_B_RIGHT.whileHeld(new IntakeCommand(intake));
 
-    driver_B_RIGHT.whileHeld(new ParallelCommandGroup(new IntakeCommand(intake), new ArmDown(arm))).whenReleased(new ParallelCommandGroup(new InstantCommand(intake::stop, intake), new ArmUp(arm)));
+     driver_B_RIGHT.whileHeld(new ParallelCommandGroup(new IntakeCommand(intake), new ArmDown(arm))).whenReleased(new ParallelCommandGroup(new InstantCommand(intake::stop, intake), new ArmUp(arm)));
    
     // JoystickButton driver_Y = new JoystickButton(driver, Constants.Y_BUTTON);
     // driver_Y.whenPressed(new ArmUp(arm)); 
 
     // JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
     // driver_A.whenPressed(new ArmDown(arm));
+    
+    // JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
+    // driver_A.whenPressed(new RunCommand (() -> drivetrain.driveMagic(1000), drivetrain));
 
     DPadButton driver_DOWN = new DPadButton(driver, Constants.DPAD_DOWN);
     driver_DOWN.whenPressed(new ArmDown(arm));
@@ -147,8 +167,14 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     // return new DriveCommand(drivetrain, 0.5).withTimeout(3);
     // return new DriveDistance(drivetrain, 0.5); 
+    
+    // SmartDashboard.getNumber("wait", 0);
+    //  Shuffleboard.getTab("Burger")
+    //    .add("Max Speed", 1)
+    //    .withWidget(BuiltInWidgets.kNumberSlider)
+    //    .getEntry();
+    
     return m_chooser.getSelected();
 
-  }
-
+  } 
 }
