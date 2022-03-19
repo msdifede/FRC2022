@@ -23,7 +23,7 @@ public final class Constants {
     
     // public static final int intakeNeo2 = 35;
     public static final int intakeVictor = 0;
-    public static final double intakeSpeed = -0.5;
+    public static final double intakeSpeed = -1;
 
     public static final double outtakeSpeed = 1;
 
@@ -32,8 +32,8 @@ public final class Constants {
     public static final int ARM = 4;
     public static final int ARM_TOP = 59;
     // Other stuff
-    public static final double armSpeed = 0.2;
-    public static final double armSpeedDown = -0.2;
+    public static final double armSpeed = 0.25;
+    public static final double armSpeedDown = -0.4;
 
     // Driver Ports
     public static final int DRIVER_PORT = 0;

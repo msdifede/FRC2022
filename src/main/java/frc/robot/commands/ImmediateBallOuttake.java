@@ -12,21 +12,28 @@ import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.IntakeSub;
 
 /** An example command that uses an example subsystem. **/
-public class FetchSecondBallOuttake extends SequentialCommandGroup {
+public class ImmediateBallOuttake extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  public FetchSecondBallOuttake(IntakeSub intake, DriveSub drive, ArmSub arm){
+  public ImmediateBallOuttake(IntakeSub intake, DriveSub drive, ArmSub arm){
     addCommands(
       new InstantCommand( drive::setToBrake, drive),
+      new OuttakeCommand(intake).withTimeout(0.5),
+      new DriveDistance(drive, -2.49),
+      new Rotate(drive, -170),
       new ArmDown(arm),
       new ParallelCommandGroup(
         new IntakeCommand(intake),
-        new DriveDistance(drive, 5.75)
-      ).withTimeout(2.5),
+        new DriveDistance(drive, 3.75)
+      ).withTimeout(1.5),
+      
+      // new ArmDown(arm),
+      // new IntakeCommand(intake),
+      // new DriveDistance(drive, 0.75),
       new InstantCommand(intake::stop, intake),
       new ArmUp(arm),
       new Rotate(drive, 170),
-      new DriveDistance(drive, 9).withTimeout(2.5),
-      new OuttakeCommand(intake).withTimeout(.5),
+      new DriveDistance(drive, 8).withTimeout(1.5),
+      new OuttakeCommand(intake).withTimeout(1),
       new InstantCommand( drive::setToCoast, drive)
     ); 
   }

@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import javax.swing.JList.DropLocation;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -32,10 +35,10 @@ public class Rotate extends CommandBase {
   @Override
   public void initialize() {
     start = drivesub.getAngle();
-    drivesub.TeleOpDrive(0, 0);
+    drivesub.TeleOpCurvatureDrive(0, 0, 0, false);
 
     SmartDashboard.putNumber("Start Angle", start);
-    SmartDashboard.putNumber("Tangle Angle", tangle);
+    SmartDashboard.putNumber("Tangle Angle", start + tangle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,28 +48,32 @@ public class Rotate extends CommandBase {
       double speed = .1;
       
       //speed = log(drivesub.getAngle() - (start + tangle), Constants.logAngle);
-      //if (!(drivesub.getAngle() > start + tangle - 5)) {
+      // if (!(drivesub.getAngle() > start + tangle - 5)) {
       //  speed = -speed;
-      //} 
+      // } 
 
-      drivesub.TeleOpDrive(-speed, speed);
+      // drivesub.TeleOpDrive(-speed, speed);
+      drivesub.TeleOpCurvatureDrive(0, 0, -0.2, true);
 
     }
     else {
-      drivesub.TeleOpDrive(.1, -.1);
+      drivesub.TeleOpCurvatureDrive(0, 0, 0.2, true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivesub.TeleOpDrive(0, 0);
+    // drivesub.TeleOpDrive(0, 0);
+    drivesub.TeleOpCurvatureDrive(0, 0, 0, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(drivesub.getAngle() - (start - tangle)) < 5){
+    if ( tangle > 0  && (drivesub.getAngle() > (start + tangle) )){
+      return true;
+    } else if ( tangle < 0 && (drivesub.getAngle() < (start + tangle) )){
       return true;
     }
     return false;

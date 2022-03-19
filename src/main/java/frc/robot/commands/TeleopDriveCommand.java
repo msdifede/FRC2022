@@ -35,19 +35,25 @@ public class TeleopDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double right = driver.getRawAxis(Constants.DRIVER_RTRIGGER) * .75;
-    double left =  driver.getRawAxis(Constants.DRIVER_LTRIGGER) * .75;
-    double turn =  -driver.getRawAxis(Constants.DRIVER_LEFT_X);
-    boolean button = new JoystickButton(driver, Constants.X_BUTTON).get();
 
+    double right = driver.getRawAxis(Constants.DRIVER_RIGHT_Y) * -.75;
+    double left =  driver.getRawAxis(Constants.DRIVER_LEFT_Y) * -.75;
+    //double turn =  -driver.getRawAxis(Constants.DRIVER_LEFT_X);
+    //boolean button = new JoystickButton(driver, Constants.X_BUTTON).get();
 
-    drive.TeleOpCurvatureDrive(right, left, turn, button);
+    // double right = driver.getRawAxis(Constants.DRIVER_RTRIGGER) * .75;
+    // double left =  driver.getRawAxis(Constants.DRIVER_LTRIGGER) * .75;
+    // double turn =  -driver.getRawAxis(Constants.DRIVER_LEFT_X);
+    // boolean button = new JoystickButton(driver, Constants.X_BUTTON).get();
+
+   drive.TeleOpDrive(-left, -right);
+   // drive.TeleOpCurvatureDrive(right, left, turn, button);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+   // drive.TeleOpCurvatureDrive(0, 0, 0, false);
    // drive.TeleOpDrive(0, 0);
   }
 

@@ -42,8 +42,8 @@ public class ArmDownAndIntake extends CommandBase {
     // arm.setArmSpeed(Constants.armSpeed);
     // If the arm is up we go down meaning it is NOT down
     //if(!arm.isDOWN()){
-        arm.setArmSpeed(Constants.armSpeedDown);
-        intake.spinIntake(Constants.intakeSpeed);
+      arm.setArmSpeed(Constants.armSpeedDown);
+      intake.spinIntake(Constants.intakeSpeed);
    //}
     
   }

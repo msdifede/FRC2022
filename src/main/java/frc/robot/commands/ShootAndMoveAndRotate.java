@@ -10,6 +10,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. **/
@@ -21,14 +22,16 @@ public class ShootAndMoveAndRotate extends SequentialCommandGroup {
 
     addCommands(
       new OuttakeCommand(intake).withTimeout(0.5),
-      new DriveDistance(drive, -5).withTimeout(2),
+      // new DriveDistance(drive, -5).withTimeout(2),
+      new RunCommand(() -> drive.TeleOpCurvatureDrive(0, 0.25, 0, false), drive).withTimeout(1),
       new Rotate(drive, 180),
-      new ParallelCommandGroup(new DriveDistance(drive, 10), new IntakeCommand(intake)).withTimeout(1),
+      new ArmDown(arm),
+      new ParallelCommandGroup( new RunCommand(() -> drive.TeleOpCurvatureDrive(0.25, 0, 0, false), drive).withTimeout(0.5)), new IntakeCommand(intake).withTimeout(1),
       new Rotate(drive, 180),
       new ArmUp(arm),
-      new DriveDistance(drive, 15).withTimeout(3),
+      // new DriveDistance(drive, 15).withTimeout(3),
+      new RunCommand(() -> drive.TeleOpCurvatureDrive(0, -0.25, 0, false), drive).withTimeout(1.5),
       new OuttakeCommand(intake).withTimeout(0.5)
-    ); 
-
+    );
   }
 }
