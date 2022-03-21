@@ -34,6 +34,12 @@ public final class Constants {
     // Other stuff
     public static final double armSpeed = 0.25;
     public static final double armSpeedDown = -0.4;
+    
+    public static final int climber = 5;
+    public static final int CLIMBER_UP = 200000;
+    public static final int climber_max = 206043;
+
+    // public static final int CLIMBER_DOWN = 
 
     // Driver Ports
     public static final int DRIVER_PORT = 0;

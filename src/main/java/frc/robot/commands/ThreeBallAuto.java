@@ -12,9 +12,9 @@ import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.IntakeSub;
 
 /** An example command that uses an example subsystem. **/
-public class FetchSecondBallOuttake extends SequentialCommandGroup {
+public class ThreeBallAuto extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  public FetchSecondBallOuttake(IntakeSub intake, DriveSub drive, ArmSub arm){
+  public ThreeBallAuto(IntakeSub intake, DriveSub drive, ArmSub arm){
     addCommands(
       new InstantCommand( drive::setToBrake, drive),
       new ArmDown(arm),

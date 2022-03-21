@@ -83,7 +83,7 @@ public class DriveSub extends SubsystemBase {
   public void TeleOpDrive(double left, double right){
     // frontLeftMotor.set(ControlMode.PercentOutput, left);
     // frontRightMotor.set(ControlMode.PercentOutput, right);
-     dDrive.tankDrive(left, right);
+    dDrive.tankDrive(left, right);
 
     
    // SmartDashboard.putNumber("Gyro", getAngle());
@@ -145,7 +145,6 @@ public class DriveSub extends SubsystemBase {
     backRightMotor.setNeutralMode(NeutralMode.Brake);
     backLeftMotor.setNeutralMode(NeutralMode.Brake);
   }
-
   public void setToCoast(){
     frontRightMotor.setNeutralMode(NeutralMode.Coast);
     frontLeftMotor.setNeutralMode(NeutralMode.Coast);

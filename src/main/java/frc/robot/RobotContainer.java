@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DPadButton;
 import frc.robot.commands.ArmUp;
+import frc.robot.commands.ClimberDown;
+import frc.robot.commands.ClimberUp;
 import frc.robot.commands.Crazy;
 import frc.robot.commands.ArmDown;
 import frc.robot.commands.DriveCommand;
@@ -38,6 +40,7 @@ import frc.robot.commands.ShootAndMove;
 import frc.robot.commands.ShootAndMoveAndRotate;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ClimberSub;
 import frc.robot.subsystems.DriveSub;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSub;
@@ -76,6 +79,7 @@ public class RobotContainer {
     );
   
   private final ArmSub arm = new ArmSub(new CANSparkMax(Constants.ARM, MotorType.kBrushless));
+  private final ClimberSub climber = new ClimberSub(new WPI_TalonFX(Constants.climber));
 
   private final Command m_simpleAuto1 = new Shoot(intake);
   private final Command m_simpleAuto2 = new Move(drivetrain); 
@@ -131,7 +135,7 @@ public class RobotContainer {
       
     
     JoystickButton driver_B = new JoystickButton(driver, Constants.B_BUTTON);
-    driver_B.whenPressed(new DriveDistance(drivetrain, 1000));
+    driver_B.whileHeld(new ClimberDown(climber));
 
     JoystickButton driver_B_RIGHT = new JoystickButton(driver, Constants.BUMPER_RIGHT);
     //driver_B_RIGHT.whileHeld(new IntakeCommand(intake));
@@ -141,8 +145,10 @@ public class RobotContainer {
     // JoystickButton driver_Y = new JoystickButton(driver, Constants.Y_BUTTON);
     // driver_Y.whenPressed(new ArmUp(arm)); 
 
-    // JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
-    // driver_A.whenPressed(new ArmDown(arm));
+    JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
+    driver_A.whileHeld(new ClimberUp(climber));
+
+    
     
     // JoystickButton driver_A = new JoystickButton(driver, Constants.A_BUTTON);
     // driver_A.whenPressed(new RunCommand (() -> drivetrain.driveMagic(1000), drivetrain));

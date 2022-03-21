@@ -7,69 +7,46 @@
 
 package frc.robot.subsystems;
 
-import java.util.ResourceBundle.Control;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SPI;
-
-
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSub extends SubsystemBase {
 
   private WPI_TalonFX leftClimber;
-  private WPI_TalonFX rightClimber;
-
-  private DifferentialDrive dDrive;
-
-  private AHRS ahrs;
+  // private WPI_TalonFX rightClimber;
 
   /**
    * Creates a new ExampleSubsystem.
    */
-  public ClimberSub(WPI_TalonFX lc, WPI_TalonFX rc) {
+  public ClimberSub(WPI_TalonFX lc) {
     leftClimber = lc;
-    rightClimber = rc;
-
+    leftClimber.setSelectedSensorPosition(0);
+    // rightClimber = rc;
 
     leftClimber.setNeutralMode(NeutralMode.Brake);
-    rightClimber.setNeutralMode(NeutralMode.Brake);
+    // rightClimber.setNeutralMode(NeutralMode.Brake);
 
-
-    rightClimber.follow(leftClimber);
-
-    
-
-    
-    try {
-      ahrs = new AHRS(SPI.Port.kMXP);
-    } catch ( RuntimeException ex ){
-     // DriverStation.reportError("Error instantiating nvX " + ex.getMessage(), true);
-    }
-    
-
-    TalonFXConfiguration config = new TalonFXConfiguration();
-    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-    
-    leftClimber.configAllSettings(config);
-    rightClimber.configAllSettings(config);
+    // rightClimber.follow(leftClimber);
   }
-
+  // 206043
+  // 200000
+  // 24803
   public double getPos(){
-    return(leftClimber.getSelectedSensorPosition());
+    return leftClimber.getSelectedSensorPosition(0);
   }
+
+  // public double getRightPos(){
+  //   // return rightClimber.getSelectedSensorPosition(0);
+  // }
 
   public void setSpeed(double speed){
     leftClimber.set(speed);
+    // rightClimber.set(speed);
+    SmartDashboard.putNumber("Left Climber Encoder", getPos());
+    // SmartDashboard.putNumber("Right Climber Encoder", getRightPos());
+
   }
 }
