@@ -33,10 +33,11 @@ public class ThreeBallAuto extends SequentialCommandGroup {
       new ArmDown(arm),
       new ParallelCommandGroup(
         new IntakeCommand(intake),
-        new DriveDistance(drive, 19.58)
+        new DriveDistance(drive, 16.3)
       ).withTimeout(2.5),
       // Max dist: 20.368
       
+
       new InstantCommand(drive::setToCoast, drive)
     ); 
   }
