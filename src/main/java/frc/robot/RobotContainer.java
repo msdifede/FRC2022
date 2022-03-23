@@ -24,8 +24,10 @@ import frc.robot.DPadButton;
 import frc.robot.commands.ArmUp;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberUp;
+import frc.robot.commands.CoastAuto;
 import frc.robot.commands.Crazy;
 import frc.robot.commands.ArmDown;
+import frc.robot.commands.ArmDownZero;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
@@ -88,6 +90,7 @@ public class RobotContainer {
   private final Command m_immediateBallAuto = new ImmediateBallOuttake(intake, drivetrain, arm);
   private final Command m_fetchSecondBallAuto = new FetchSecondBallOuttake(intake, drivetrain, arm);
   private final Command crazy = new Crazy(drivetrain, intake, arm); 
+  private final Command coast = new CoastAuto(drivetrain);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   
@@ -100,13 +103,14 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand( new TeleopDriveCommand(drivetrain, driver) );
 
-
-    m_chooser.setDefaultOption("Shoot and Move", m_complexAuto1);
+    m_chooser.setDefaultOption("Fetch Second Ball Auto", m_fetchSecondBallAuto);
+    m_chooser.addOption("Shoot and Move", m_complexAuto1);
     m_chooser.addOption("Move", m_simpleAuto2);
     m_chooser.addOption("Shoot", m_simpleAuto1);
     m_chooser.addOption("Shoot, Move, and Rotate", m_complexAuto2);
     m_chooser.addOption("Immediate Ball Auto", m_immediateBallAuto);
-    m_chooser.addOption("Fetch Second Ball Auto", m_fetchSecondBallAuto);
+    m_chooser.addOption("Coast", coast);
+    // m_chooser.addOption("Fetch Second Ball Auto", m_fetchSecondBallAuto);
     // m_chooser.addOption("Crazy", crazy);
 
     SmartDashboard.putData(m_chooser); 
@@ -154,7 +158,7 @@ public class RobotContainer {
     // driver_A.whenPressed(new RunCommand (() -> drivetrain.driveMagic(1000), drivetrain));
 
     DPadButton driver_DOWN = new DPadButton(driver, Constants.DPAD_DOWN);
-    driver_DOWN.whenPressed(new ArmDown(arm));
+    driver_DOWN.whenPressed(new ArmDownZero(arm));
 
     DPadButton driver_UP = new DPadButton(driver, Constants.DPAD_UP);
     driver_UP.whenPressed(new ArmUp(arm));

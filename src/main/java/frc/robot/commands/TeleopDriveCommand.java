@@ -36,8 +36,8 @@ public class TeleopDriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double right = driver.getRawAxis(Constants.DRIVER_RIGHT_Y) * -.75;
-    double left =  driver.getRawAxis(Constants.DRIVER_LEFT_Y) * -.75;
+    double right = driver.getRawAxis(Constants.DRIVER_RIGHT_Y) * -1;
+    double left =  driver.getRawAxis(Constants.DRIVER_LEFT_Y) * -1;
     //double turn =  -driver.getRawAxis(Constants.DRIVER_LEFT_X);
     //boolean button = new JoystickButton(driver, Constants.X_BUTTON).get();
 

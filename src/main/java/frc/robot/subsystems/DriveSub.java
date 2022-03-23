@@ -152,15 +152,15 @@ public class DriveSub extends SubsystemBase {
     backLeftMotor.setNeutralMode(NeutralMode.Coast); 
   }
 
-  public void driveMagic(double distance){
-    setLeftPos(0);
-    setRightPos(0);
-    frontRightMotor.set(ControlMode.MotionMagic, distance);
-    frontLeftMotor.set(ControlMode.MotionMagic, distance); 
-  }
+  // public void driveMagic(double distance){
+  //   setLeftPos(0);
+  //   setRightPos(0);
+  //   frontRightMotor.set(ControlMode.MotionMagic, distance);
+  //   frontLeftMotor.set(ControlMode.MotionMagic, distance); 
+  // }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("LeftFront Motor", frontLeftMotor.getMotorOutputVoltage());
   }
 }

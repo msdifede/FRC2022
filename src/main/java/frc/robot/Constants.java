@@ -15,9 +15,9 @@ package frc.robot;
 public final class Constants {
     // Wheel Can IDs
     public static final int FR_FALCON = 2;
-    public static final int FL_FALCON = 6;
+    public static final int FL_FALCON = 7;
     public static final int BR_FALCON = 1;
-    public static final int BL_FALCON = 8;
+    public static final int BL_FALCON = 6;
 
     // Intake
     

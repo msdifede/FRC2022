@@ -14,8 +14,7 @@ public class ClimberDown extends CommandBase {
 
   /**
    * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   *   * @param subsystem The subsystem used by this command.
    */
   public ClimberDown(ClimberSub climber) {
     this.climber = climber;
@@ -30,7 +29,7 @@ public class ClimberDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      climber.setSpeed(-0.5);
+      climber.setSpeed(-0.8);
   }
 
   // Called once the command ends or is interrupted.
